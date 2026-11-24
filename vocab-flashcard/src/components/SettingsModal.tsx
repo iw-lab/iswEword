@@ -10,6 +10,7 @@ import { useProgress } from '@/hooks/useProgress';
 import { useLeitner } from '@/hooks/useLeitner';
 import { useStudent } from '@/contexts/StudentContext';
 import SyncModal from './SyncModal';
+import { syncAvailable } from '@/lib/supabase';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -147,7 +148,8 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
             </div>
 
             <div className="p-4 space-y-6">
-              {/* Sync */}
+              {/* Sync — 동기화 서버(Supabase)가 없는 배포에서는 숨긴다(누르면 실패만 하는 단추) */}
+              {syncAvailable && (
               <div>
                 <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-3">기기 간 동기화</h3>
                 <button onClick={handleOpenSync} className="w-full flex items-center gap-3 p-4 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl text-white font-bold hover:from-indigo-600 hover:to-purple-600 transition-all">
@@ -155,6 +157,7 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                   <div className="text-left"><span className="block">다른 기기와 동기화</span><span className="text-xs font-normal opacity-80">PIN 코드로 학습 데이터 공유</span></div>
                 </button>
               </div>
+              )}
 
               {/* Theme */}
               <div>

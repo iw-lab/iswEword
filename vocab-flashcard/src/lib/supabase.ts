@@ -3,7 +3,9 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// 주소가 없으면 동기화 단추를 숨긴다 — 빈 주소로 createClient 를 부르면 앱 전체가 죽는다.
+export const syncAvailable = supabaseUrl.length > 0 && supabaseAnonKey.length > 0;
+export const supabase = createClient(supabaseUrl || 'https://sync-disabled.invalid', supabaseAnonKey || 'none');
 
 // PIN 동기화 데이터 타입
 export interface SyncData {
